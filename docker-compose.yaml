@@ -1,0 +1,37 @@
+services:
+  web:
+    build: services/frontend
+    ports:
+      - "5000:5000"
+    networks:
+      - frontend
+      - backend
+  reader:
+    build: services/reader
+    ports:
+      - "8080:8080"
+    networks:
+      - frontend
+      - backend
+  writer:
+    build: 
+      context: ./services/writer
+    container_name: writer
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"    
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
